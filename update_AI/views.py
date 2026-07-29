@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
-def create_AI(request):
-    template='create_AI.html'
+def AI_writing(request):
+    template='AI_writing.html'
     return render(request,template)
-def your_AI_list(request):
-    template='your_AI_list.html'
+def update_AI(request):
+    template='update_AI.html'
     return render(request,template)
