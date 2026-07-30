@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from create_AI.views import home
 
 urlpatterns = [
+    path('', home, name = "home" ),
+    path('home/', home, name = "home" ),
     path('admin/', admin.site.urls),
+    path("accounts/", include("allauth.urls")),
     path("create_AI/",include("create_AI.urls")),
-    path("update_AI",include("update_AI.urls")),
+    path("update_AI/",include("update_AI.urls")),
 ]
