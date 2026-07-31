@@ -1,3 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
-<p>hello</p>
+
+{% block content %}
+{% for AI in AIs %}
+<textarea class="meal_names" name="meal_name_for_checks">{{AI.name}}</textarea>
+{% endfor %}
+<div class="container">
+    <div class="row">
+        <!-- col-12 class from bootstrap -->
+        <div class="standard col-12">
+        <h1>Name Your AI</h1>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="AI_name">AI Name</label>
+            <input type="text" id="AI_name" name="AI_name" value="{{AI_name}}" aria-label="Name of your new AI to be add to the list of AI">
+            <br>
+            <br>
+            <!-- btn-success classes from bootstrap used for create meal button  -->
+            {% if named %}
+                <button type="submit" id="AI_name_buttonb" class="btn btn-success" aria-label="Button that saves the new AI name and keeps any saved information from the old AI name">Rename AI</button>
+            {% else %}
+                <button type="submit" id="AI_name_button" class="btn btn-success" aria-label="Button the saves a new AI with the typed in name">Create AI</button>
+            {% endif %}
+            <br>
+        </form>
+        <br>
+        <a href="{% url 'your_AI_list' %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go back to AI List</a>
+        </div>
+    </div>
+</div>
+<!-- custom javascript -->
+
+{% endblock %}
