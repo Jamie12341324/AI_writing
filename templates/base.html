@@ -1,6 +1,6 @@
 {% load static %}
 
-{% url 'create_AI' as create_AI_url %}
+{% url 'AI_create' as create_AI_url %}
 {% url 'your_AI_list' as your_AI_list_url %}
 {% url 'update_AI' as update_AI_url %}
 {% url 'AI_writing' as AI_writing_url %}
@@ -59,7 +59,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == create_AI_url %}active{% endif %} {% if request.path == product_list_search_url %}active{% endif %} link" aria-current="page"
-                            href="{% url 'create_AI' %}" aria-label="Link that takes you to the product list page">Create AI</a>
+                            href="{% url 'AI_create' %}" aria-label="Link that takes you to the product list page">Create AI</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == your_AI_list_url %}active{% endif %} link" aria-current="page"
