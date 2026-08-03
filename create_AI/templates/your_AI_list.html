@@ -12,6 +12,7 @@
           <table class="standard">
             <tr>
               <th> AI name</th>
+              <th> Talk</th>
               <th> Edit </th>
               <th> Rename </th>
               <th> Delete</th>
@@ -19,9 +20,10 @@
             {% for AI in AI_results %}
               <tr>
                   <td class="padding4">{{AI.name}}</td>
-                  <td class="padding4"><a href="/AI_update/{{AI.id}}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit or Add data to AI</a></td>
+                  <td class="padding4"><a href="{% url 'AI_writing' AI.id %}" class="btn btn-success" aria-label="Link with button class for talking to an AI">Talk</a></td>
+                  <td class="padding4"><a href="{% url 'update_AI' AI.id %}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit or Add data to AI</a></td>
                   <td class="padding4"><a href="{% url 'AI_create2' AI.id %}" class="btn btn-success" aria-label="Link with button class for renaming a AI">Rename</a></td>
-                  <td class="padding4"><a href="/AI_delete/{{AI.id}}" class="btn btn-danger" aria-label="Link with button class for deleting a AI">Delete</a></td>
+                  <td class="padding4"><a href="{% url 'AI_delete' AI.id %}" class="btn btn-danger" aria-label="Link with button class for deleting a AI">Delete</a></td>
               </tr>
             {% endfor %}
             </table>

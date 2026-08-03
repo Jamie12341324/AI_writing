@@ -70,3 +70,7 @@ def your_AI_list(request):
     }
     template ='your_AI_list.html'
     return render(request,template,context)
+def AI_delete(request,ai_id):
+    ai_to_delete= AI.objects.get(Q(id=ai_id) & Q(user_id=request.user.id))
+    ai_to_delete.delete()
+    return redirect("your_AI_list")

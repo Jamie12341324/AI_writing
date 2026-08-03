@@ -15,3 +15,8 @@ can still read the sontent and it looks better */
     background-color: rgba(9, 9, 9, 0.7);
     color:white;
 }
+/* class for putting a label on top of a textarea for training text textarea*/
+.label_div{
+    display: block;
+    text-align:center;
+}

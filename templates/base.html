@@ -65,14 +65,6 @@
                         <a class="nav-link {% if request.path == your_AI_list_url %}active{% endif %} link" aria-current="page"
                             href="{% url 'your_AI_list' %}" aria-label="Link that takes you to the add product page">Your AI List</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == update_AI_url %}active{% endif %} link" aria-current="page"
-                            href="{% url 'update_AI' %}" aria-label="Link that takes you to the order list page">Update AI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == AI_writing_url %}active{% endif %} link" aria-current="page"
-                            href="{% url 'AI_writing' %}" aria-label="Link that takes you to the my orders page">AI writing</a>
-                    </li>
                     {% else %}
                     <li class="nav-item">
 	                    <a class="nav-link {% if request.path == signup_url %}active{% endif %} link" aria-current="page"

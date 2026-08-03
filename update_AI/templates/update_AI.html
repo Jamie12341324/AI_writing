@@ -1,2 +1,34 @@
 {% extends "base.html" %}
 {% load static %}
+{% url 'AI_text_list' as your_AI_list_url %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- col-12 class from bootstrap -->
+        <div class="standard col-12">
+        <h1>Add training to your AI</h1>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="train_AI" class="label_div">AI Training Text</label>
+            <textarea id="train_AI" name="train_AI" rows="10" cols="60" aria-label="New training text to be add to the list of training texts">
+            </textarea>
+            <br>
+            <br>
+            <!-- btn-success classes from bootstrap used for create meal button  -->
+            {% if named %}
+                <button type="submit" id="train_AI_buttonb" class="btn btn-success" aria-label="Button that saves the new AI name and keeps any saved information from the old AI name">Rename AI</button>
+            {% else %}
+                <button type="submit" id="train_AI_button" class="btn btn-success" aria-label="Button the saves a new training text with the typed in text">Train AI</button>
+            {% endif %}
+            <br>
+        </form>
+        <br>
+        <a href="{% url 'AI_text_list' AI_id %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go to AI training text List</a>
+        </div>
+    </div>
+</div>
+<!-- custom javascript -->
+
+{% endblock %}
