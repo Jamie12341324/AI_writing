@@ -7,5 +7,5 @@ from create_AI.models import AI
 class training_text(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text_saved = models.CharField(max_length=255)
-    name2 = models.IntegerField()
+    name2 = models.CharField(max_length=255)
     ai = models.ForeignKey(AI, on_delete=models.CASCADE)

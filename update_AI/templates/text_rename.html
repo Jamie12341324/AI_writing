@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% url 'AI_text_list' as AI_text_list_url %}
+
+{% block content %}
+{% for text_name in text_names %}
+<textarea class="text_names" name="text_name">{{text_name.name2}}</textarea>
+{% endfor %}
+<div class="container">
+    <div class="row">
+        <!-- col-12 class from bootstrap -->
+        <div class="standard col-12">
+        <h1>Rename Your Text</h1>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="text_name">Text Name</label>
+            <input type="text" id="text_name" name="text_name" value="{{text_name}}" aria-label="new name of your text to update the list of texts">
+            <br>
+            <br>
+            <!-- btn-success classes from bootstrap used for create meal button  -->
+            <button type="submit" id="AI_name_buttonb" class="btn btn-success" aria-label="Button that saves the new text name and keeps any saved information from the old text name">Rename Text</button>
+            <br>
+        </form>
+        <br>
+        <a href="{% url 'AI_text_list' AI_id %}" class="btn btn-success" aria-label="Button that sends you to the text list">Go back to text List</a>
+        </div>
+    </div>
+</div>
+<!-- custom javascript -->
+
+{% endblock %}

@@ -17,9 +17,9 @@ def update_AI(request,ai_id):
             text.user_id=request.user.id
             text.text_saved=request.POST["train_AI"]
             if max_num==None:
-                text.name2=1
+                text.name2=str(1)
             else:
-                text.name2=max_num+1
+                text.name2=str(max_num+1)
             text.ai=ai
             text.save()
             return redirect("AI_text_list", ai_id=ai.id)
@@ -41,19 +41,27 @@ def update_AI2(request,ai_id,text_id):
                  context
              )
 def text_rename(request,ai_id,text_id):
-     context={}
-     return render(
-                 request,
-                 "update_AI.html",
-                 context
-             )
+    if request.method=="POST":
+        text_to_rename=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
+        text_to_rename.name2=request.POST["text_name"]
+        text_to_rename.save()
+        context={'AI_id':ai_id,}
+        ai = AI.objects.get(id=ai_id)
+        return redirect("AI_text_list", ai_id=ai.id)
+    else:
+        existing_text=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
+        existing_text_name=existing_text.name2
+        text_names=training_text.objects.filter(user=request.user,ai=ai_id).values().first()
+        context={'AI_id':ai_id,
+                 'text_name':existing_text_name,
+                 'text_names':text_names}
+        return render(request,'text_rename.html',context)
 def text_delete(request,ai_id,text_id):
+     text_to_delete=training_text.objects.filter(user=request.user,ai=ai_id,id=text_id)
+     text_to_delete.delete()
      context={}
-     return render(
-                 request,
-                 "update_AI.html",
-                 context
-             )
+     ai = AI.objects.get(id=ai_id)
+     return redirect("AI_text_list", ai_id=ai.id)
 def AI_text_list(request,ai_id):
     template='AI_text_list.html'
     Text_results=training_text.objects.filter(user=request.user,ai=ai_id)
