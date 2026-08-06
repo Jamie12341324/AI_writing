@@ -12,14 +12,17 @@ def update_AI(request,ai_id):
             if request.POST["train_AI"] == '':
                 return redirect("update_AI", ai_id=ai.id)
             ai = AI.objects.get(id=ai_id)
-            max_num = training_text.objects.filter(user=request.user,ai=ai.id).aggregate(Max("name2"))["name2__max"]
+            max_num = training_text.objects.filter(user=request.user,ai=ai.id).aggregate(Max("number"))["number__max"]
             text=training_text()
             text.user_id=request.user.id
             text.text_saved=request.POST["train_AI"]
             if max_num==None:
                 text.name2=str(1)
+                text.number=1
             else:
-                text.name2=str(max_num+1)
+                num=max_num+1
+                text.name2=str(num)
+                text.number=num
             text.ai=ai
             text.save()
             return redirect("AI_text_list", ai_id=ai.id)
@@ -27,19 +30,32 @@ def update_AI(request,ai_id):
         training_texts=training_text.objects.all().values()
         context={"training_texts":training_texts,
                  'AI_id':ai_id,
-                 "named":False}
+                 "new":False,
+                 "text":"",}
         return render(
             request,
             "update_AI.html",
             context
         )
 def update_AI2(request,ai_id,text_id):
-     context={}
-     return render(
-                 request,
-                 "update_AI.html",
-                 context
-             )
+     ai = AI.objects.get(id=ai_id)
+     if request.method == "POST":
+        if request.POST["train_AI"] == '':
+            return redirect("update_AI", ai_id=ai.id)
+        text=training_text.objects.get(user=request.user,ai=ai.id,id=text_id)
+        text.text_saved=request.POST["train_AI"]
+        text.save()
+        return redirect("AI_text_list", ai_id=ai.id)
+     else:
+        text=training_text.objects.get(user=request.user,ai=ai.id,id=text_id)
+        context={'AI_id':ai_id,
+                "new":True,
+                "text":text.text_saved}
+        return render(
+                    request,
+                    "update_AI.html",
+                    context
+                )
 def text_rename(request,ai_id,text_id):
     if request.method=="POST":
         text_to_rename=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)

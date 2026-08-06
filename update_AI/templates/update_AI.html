@@ -7,20 +7,20 @@
     <div class="row">
         <!-- col-12 class from bootstrap -->
         <div class="standard col-12">
+        {% if new %}
         <h1>Add training to your AI</h1>
+        {% else %}
+        <h1>Update training for your AI</h1>
+        {% endif %}
         <br>
         <form method="POST">
             {% csrf_token %}
             <label for="train_AI" class="label_div">AI Training Text</label>
-            <textarea id="train_AI" name="train_AI" rows="10" cols="30" aria-label="New training text to be add to the list of training texts"></textarea>
+            <textarea id="train_AI" name="train_AI" rows="10" cols="30" aria-label="New training text to be add to the list of training texts">{{ text }}</textarea>
             <br>
             <br>
             <!-- btn-success classes from bootstrap used for create meal button  -->
-            {% if named %}
-                <button type="submit" id="train_AI_buttonb" class="btn btn-success" aria-label="Button that saves the new AI name and keeps any saved information from the old AI name">Rename AI</button>
-            {% else %}
-                <button type="submit" id="train_AI_button" class="btn btn-success" aria-label="Button the saves a new training text with the typed in text">Train AI</button>
-            {% endif %}
+            <button type="submit" id="train_AI_button" class="btn btn-success" aria-label="Button the saves a new training text with the typed in text">Train AI</button>
             <br>
         </form>
         <br>

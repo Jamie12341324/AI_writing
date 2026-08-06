@@ -4,6 +4,7 @@
 {% url 'update_AI2' as update_AI2_url %}
 {% url 'text_rename' as text_rename_url %}
 {% url 'text_delete' as text_delete_url %}
+{% url 'your_AI_list' as your_AI_list_url %}
 
 {% block content %}
 <div class="container" id="background_meal_list">
@@ -29,6 +30,8 @@
               </tr>
             {% endfor %}
             </table>
+            <br>
+            <a href="{% url 'your_AI_list' %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go back to AI List</a>
         </div>
     </div>
 </div>
