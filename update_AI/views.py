@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import training_text,AI
+from .models import training_text,AI,AI_values
 from django.db.models import Max
+from Mimic1_creative import Records
+import random
 # Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
@@ -25,6 +27,17 @@ def update_AI(request,ai_id):
                 text.number=num
             text.ai=ai
             text.save()
+            records=Records()
+            records.test_full_sequence(text.text_saved,random.randint(0,4))
+            ai_values=AI_values()
+            ai_values.value_checks=records.test_A
+            ai_values.value_answers=records.answer_A
+            ai_values.group=records.data_group_num_A
+            ai_values.user_id = request.user.id
+            ai_values.name2 = text.name2
+            ai_values.number = text.number
+            ai_values.ai = ai
+            ai_values.save()
             return redirect("AI_text_list", ai_id=ai.id)
     else:
         training_texts=training_text.objects.all().values()
@@ -67,7 +80,7 @@ def text_rename(request,ai_id,text_id):
     else:
         existing_text=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
         existing_text_name=existing_text.name2
-        text_names=training_text.objects.filter(user=request.user,ai=ai_id).values().first()
+        text_names=training_text.objects.filter(user=request.user,ai=ai_id).values()
         context={'AI_id':ai_id,
                  'text_name':existing_text_name,
                  'text_names':text_names}
