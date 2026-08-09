@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import training_text,AI,AI_values
+from .models import training_text,AI,ai_values
 from django.db.models import Max
-from Mimic1_creative import Records
+from .Mimic1_creative import Records
 import random
 # Create your views here.
 def AI_writing(request,ai_id):
@@ -29,15 +29,16 @@ def update_AI(request,ai_id):
             text.save()
             records=Records()
             records.test_full_sequence(text.text_saved,random.randint(0,4))
-            ai_values=AI_values()
-            ai_values.value_checks=records.test_A
-            ai_values.value_answers=records.answer_A
-            ai_values.group=records.data_group_num_A
-            ai_values.user_id = request.user.id
-            ai_values.name2 = text.name2
-            ai_values.number = text.number
-            ai_values.ai = ai
-            ai_values.save()
+            ai_values_to_save=ai_values()
+            ai_values_to_save.value_checks=records.test_A
+            ai_values_to_save.value_answers=records.answer_A
+            ai_values_to_save.group=records.data_group_num_A
+            ai_values_to_save.user_id = request.user.id
+            ai_values_to_save.name2 = text.name2
+            ai_values_to_save.number = text.number
+            ai_values_to_save.ai = ai
+            ai_values_to_save.training_text=text
+            ai_values_to_save.save()
             return redirect("AI_text_list", ai_id=ai.id)
     else:
         training_texts=training_text.objects.all().values()
@@ -58,6 +59,13 @@ def update_AI2(request,ai_id,text_id):
         text=training_text.objects.get(user=request.user,ai=ai.id,id=text_id)
         text.text_saved=request.POST["train_AI"]
         text.save()
+        records=Records()
+        records.test_full_sequence(text.text_saved,random.randint(0,4))
+        ai_values_to_save=ai_values.objects.get(user=request.user, training_text=text.id)
+        ai_values_to_save.value_checks=records.test_A
+        ai_values_to_save.value_answers=records.answer_A
+        ai_values_to_save.group=records.data_group_num_A
+        ai_values_to_save.save()
         return redirect("AI_text_list", ai_id=ai.id)
      else:
         text=training_text.objects.get(user=request.user,ai=ai.id,id=text_id)
@@ -74,6 +82,9 @@ def text_rename(request,ai_id,text_id):
         text_to_rename=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
         text_to_rename.name2=request.POST["text_name"]
         text_to_rename.save()
+        ai_values_to_save=ai_values.objects.get(user=request.user, training_text=text_to_rename.id)
+        ai_values_to_save.name2=text_to_rename.name2
+        ai_values_to_save.save()
         context={'AI_id':ai_id,}
         ai = AI.objects.get(id=ai_id)
         return redirect("AI_text_list", ai_id=ai.id)

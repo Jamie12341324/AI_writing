@@ -1,2 +1,36 @@
 {% extends "base.html" %}
 {% load static %}
+{% url 'AI_text_list' as your_AI_list_url %}
+{% url 'your_AI_list' as your_AI_list_url %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- col-12 class from bootstrap -->
+        <div class="standard col-12">
+        <h1>Talk to your AI</h1>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="talk_AI" class="label_div">AI starting Text</label>
+            <textarea id="train_AI" name="train_AI" rows="10" cols="30" aria-label="New start of some writing for AI"></textarea>
+            <br>
+            <label for="response_AI" class="label_div">AI response Text</label>
+            <textarea id="response_AI" name="response_AI" rows="10" cols="30" aria-label="New response from AI"></textarea>
+            <br>
+            <br>
+            <!-- btn-success classes from bootstrap used for create meal button  -->
+            <button type="submit" id="talk_AI_button" class="btn btn-success" aria-label="Button that gets the AI to respond using the starting text">AI response</button>
+            <br>
+            <br>
+            <button type="submit" id="talk_AI_button2" class="btn btn-success" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response as starting text</button>
+            <br>
+        </form>
+        <br>
+        <a href="{% url 'your_AI_list' %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go back to AI List</a>
+        </div>
+    </div>
+</div>
+<!-- custom javascript -->
+
+{% endblock %}
