@@ -1,5 +1,5 @@
 import random
-# import hard_coded_training_data_maker
+#import hard_coded_training_data_maker
 info="12345678"
 # LW maybe try ignoring records that don't involve at least one example of the
 # move set which is the longest or the number of moves gone through to get to the
@@ -161,6 +161,24 @@ class Records:
             info=info+answer
             print("info",info)
         print("info",info)
+    def text_central_loop3(self,sequence):
+            #self.test_full_sequence(sequence)
+            #print("self.test_A",self.test_A)
+            #print("self.answer_A",self.answer_A)
+            info=""
+            #x=input()
+            info=info+sequence
+            answer=""
+            while answer!=".":
+                answer=self.respond(info)
+                if answer=="d":
+                    pass
+                if answer==" ":
+                    self.transfer_data_group()
+                info=info+answer
+                print("info",info)
+            print("info",info)
+            return info
     def text_central_loop2(self,start):
         #self.test_full_sequence(sequence)
         #print("self.test_A",self.test_A)
@@ -214,6 +232,8 @@ class Records:
 # records.test_full_sequence(data_A.leaf_A2[0],data_group_num=1)
 # records.test_full_sequence(data_A.leaf_A2[6],data_group_num=2)
 # records.test_full_sequence(data_A.leaf_A2[5],data_group_num=3)
+# records.test_full_sequence("Hi there are you ok.",data_group_num=3)
+# records.test_full_sequence("Hi there are you ok.",data_group_num=2)
 # records.use=False
 # sequence=""
 # records.text_central_loop(sequence)

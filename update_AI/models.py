@@ -14,12 +14,14 @@ class training_text(models.Model):
 class ai_values(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ai = models.ForeignKey(AI, on_delete=models.CASCADE)
+    # foreign key from chatgpt
     training_text = models.ForeignKey(
     training_text,
     on_delete=models.CASCADE
 )
     name2 = models.CharField(max_length=255)
     number = models.IntegerField()
+    # models with arrays from chatgpt
     value_checks = models.JSONField(default=list, blank=True)
     value_answers = models.JSONField(default=list, blank=True)
     group = models.JSONField(default=list, blank=True)

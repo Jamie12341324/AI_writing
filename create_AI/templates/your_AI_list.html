@@ -7,8 +7,8 @@
       <!-- col-12 class from bootstrap -->
         <div class="standard col-12">
           <h1>AI List</h1>
+          <!-- btn-success class from bootstrap -->
           <p><a href="{% url 'AI_create' %}" class="btn btn-success" aria-label="Link with button class for creating a new AI">Create New AI</a></p>
-
           <table class="standard">
             <tr>
               <th> AI name</th>
@@ -19,6 +19,7 @@
             </tr>
             {% for AI in AI_results %}
               <tr>
+                    <!-- btn-success and btn-danger classes from bootstrap -->
                   <td class="padding4">{{AI.name}}</td>
                   <td class="padding4"><a href="{% url 'AI_writing' AI.id %}" class="btn btn-success" aria-label="Link with button class for talking to an AI">Talk</a></td>
                   <td class="padding4"><a href="{% url 'update_AI' AI.id %}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit or Add data to AI</a></td>

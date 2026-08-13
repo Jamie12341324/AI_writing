@@ -13,13 +13,13 @@
         <form method="POST">
             {% csrf_token %}
             <label for="talk_AI" class="label_div">AI starting Text</label>
-            <textarea id="train_AI" name="train_AI" rows="10" cols="30" aria-label="New start of some writing for AI"></textarea>
+            <textarea id="talk_AI" name="talk_AI" rows="10" cols="30" aria-label="New start of some writing for AI">{{ starting_text }}</textarea>
             <br>
             <label for="response_AI" class="label_div">AI response Text</label>
-            <textarea id="response_AI" name="response_AI" rows="10" cols="30" aria-label="New response from AI"></textarea>
+            <textarea id="response_AI" name="response_AI" rows="10" cols="30" aria-label="New response from AI">{{ response_text }}</textarea>
             <br>
             <br>
-            <!-- btn-success classes from bootstrap used for create meal button  -->
+            <!-- btn-success class from bootstrap -->
             <button type="submit" id="talk_AI_button" class="btn btn-success" aria-label="Button that gets the AI to respond using the starting text">AI response</button>
             <br>
             <br>

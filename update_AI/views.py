@@ -2,12 +2,49 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import training_text,AI,ai_values
 from django.db.models import Max
+# . from chatgpt used for import non-django file from another one of my project
 from .Mimic1_creative import Records
 import random
 # Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
-    return render(request,template)
+    ai = AI.objects.get(id=ai_id)
+    if request.method=="POST":
+        records=Records()
+        #records.test_full_sequence("Hi there are you ok.",1)
+        #records.test_full_sequence("Hi there are you ok.",2)
+        #records.test_full_sequence("Hi there are you ok.",3)
+        #records.test_full_sequence("Hi there are you ok.",4)
+        records.use=False
+        ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id)
+        for ai_values_to_use in ai_values_to_use_A:
+            print("ai_values_to_use",ai_values_to_use.group)
+            c=0
+            L1=len(ai_values_to_use.value_checks)
+            while c<L1:
+                L2=len(records.test_A)
+                if c==L2:
+                    records.test_A.append([])
+                    records.answer_A.append([])
+                    records.data_group_num_A.append([])
+                c2=0
+                L2=len(ai_values_to_use.value_checks[c])
+                while c2<L2:
+                    records.test_A[c].append(ai_values_to_use.value_checks[c][c2])
+                    records.answer_A[c].append(ai_values_to_use.value_answers[c][c2])
+                    records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
+                    c2=c2+1
+                c=c+1
+        print("records.answer_A",records.answer_A)
+        starting_text=request.POST["talk_AI"]
+        info="hello"
+        info=records.text_central_loop3(starting_text)
+        context={"response_text":info,
+                 "starting_text":starting_text}
+        return render(request,template,context)
+    else:
+        context={}
+        return render(request,template,context)
 def update_AI(request,ai_id):
     ai = AI.objects.get(id=ai_id)
     if request.method == "POST":

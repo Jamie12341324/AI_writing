@@ -12,6 +12,7 @@
       <!-- col-12 class from bootstrap -->
         <div class="standard col-12">
           <h1>Text List</h1>
+          <!-- btn-success class from bootstrap -->
           <p><a href="{% url 'update_AI' ai.id %}" class="btn btn-success" aria-label="Link with button class for creating a new AI">Create New Training Text For AI</a></p>
 
           <table class="standard">
@@ -23,6 +24,7 @@
             </tr>
             {% for Text in Text_results %}
               <tr>
+                <!-- btn-success and btn-danger class from bootstrap -->
                   <td class="padding4">{{Text.name2}}</td>
                   <td class="padding4"><a href="{% url 'update_AI2' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit Text</a></td>
                   <td class="padding4"><a href="{% url 'text_rename' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for renaming a AI">Rename</a></td>
