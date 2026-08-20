@@ -13,7 +13,7 @@
         <h1>Update training for your AI</h1>
         {% endif %}
         <br>
-        <form method="POST">
+        <form id="train_form" method="POST">
             {% csrf_token %}
             <label for="train_AI" class="label_div">AI Training Text</label>
             <textarea id="train_AI" name="train_AI" rows="10" cols="30" aria-label="New training text to be add to the list of training texts">{{ text }}</textarea>
@@ -29,5 +29,5 @@
     </div>
 </div>
 <!-- custom javascript -->
-
+<script src="/static/js/script.js"></script>
 {% endblock %}

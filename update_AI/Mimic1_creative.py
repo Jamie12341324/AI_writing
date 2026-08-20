@@ -30,6 +30,9 @@ class Records:
             self.answer_A[c].append(info[L1])
             self.data_group_num_A[c].append(data_group_num)
             c=c+1
+        self.test_A.append([])
+        self.answer_A.append([])
+        self.data_group_num_A.append([])
         #print("self.test_A",self.test_A)
         #print("self.answer_A",self.answer_A)
     def respond(self,info):
@@ -45,6 +48,9 @@ class Records:
         if d<=-1:
             c5=(-d)-1
             d=0
+        if d==0:
+            d=1
+            c5=1
         #print("d",d)
         b=False
         act=True
@@ -88,7 +94,11 @@ class Records:
                 break
             c2=c2+1
         if b==False:
-            self.answer=str(random.randint(1,4))
+            L_info=len(info)
+            if L_info>10:
+                self.answer=self.respond(info[int((L_info-L_info%2)/2):L_info])
+            else:
+                self.answer=str(random.randint(1,4))
             print("unkown so random")
         #print("answer",self.answer)
         return self.answer

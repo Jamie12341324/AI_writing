@@ -18,7 +18,7 @@ def AI_writing(request,ai_id):
         records.use=False
         ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id)
         for ai_values_to_use in ai_values_to_use_A:
-            print("ai_values_to_use",ai_values_to_use.group)
+            #print("ai_values_to_use",ai_values_to_use.group)
             c=0
             L1=len(ai_values_to_use.value_checks)
             while c<L1:
@@ -35,9 +35,24 @@ def AI_writing(request,ai_id):
                     records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
                     c2=c2+1
                 c=c+1
+            # records.test_A.append([])
+            # records.answer_A.append([])
+            # records.data_group_num_A.append([])
         print("records.answer_A",records.answer_A)
-        starting_text=request.POST["talk_AI"]
+        action=request.POST.get("respond_button")
+        if action=="use_starting_text":
+            starting_text=request.POST["talk_AI"]
+        elif action=="use_response_text":
+            starting_text=request.POST["response_AI"]
         info="hello"
+        # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=3)
+        # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=2)
+        # records.test_full_sequence("Hello there are you ok. Hi there are you ok.",data_group_num=1)
+        # records.test_full_sequence("Hello there are you ok. Hi there are you ok.",data_group_num=4)
+        # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=5)
+        # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=6)
+        # records.test_full_sequence("Hello there are you ok. Hi there are you ok.",data_group_num=7)
+        # records.test_full_sequence("Hello there are you ok. Hi there are you ok.",data_group_num=8)
         info=records.text_central_loop3(starting_text)
         context={"response_text":info,
                  "starting_text":starting_text}
@@ -48,7 +63,8 @@ def AI_writing(request,ai_id):
 def update_AI(request,ai_id):
     ai = AI.objects.get(id=ai_id)
     if request.method == "POST":
-            if request.POST["train_AI"] == '':
+            train_text=request.POST["train_AI"]
+            if train_text == '' or (train_text[len(train_text)-1] != '.' and train_text[len(train_text)-1] != '?' and train_text[len(train_text)-1] != '!'):
                 return redirect("update_AI", ai_id=ai.id)
             ai = AI.objects.get(id=ai_id)
             max_num = training_text.objects.filter(user=request.user,ai=ai.id).aggregate(Max("number"))["number__max"]
@@ -65,17 +81,44 @@ def update_AI(request,ai_id):
             text.ai=ai
             text.save()
             records=Records()
-            records.test_full_sequence(text.text_saved,random.randint(0,4))
-            ai_values_to_save=ai_values()
-            ai_values_to_save.value_checks=records.test_A
-            ai_values_to_save.value_answers=records.answer_A
-            ai_values_to_save.group=records.data_group_num_A
-            ai_values_to_save.user_id = request.user.id
-            ai_values_to_save.name2 = text.name2
-            ai_values_to_save.number = text.number
-            ai_values_to_save.ai = ai
-            ai_values_to_save.training_text=text
-            ai_values_to_save.save()
+            texts=training_text.objects.filter(user=request.user,ai=ai.id)
+            print(len(texts))
+            if training_text.objects.filter(user=request.user,ai=ai.id) and len(texts)>8:
+                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+                ai_values_to_save=ai_values()
+                ai_values_to_save.value_checks=records.test_A
+                ai_values_to_save.value_answers=records.answer_A
+                ai_values_to_save.group=records.data_group_num_A
+                ai_values_to_save.user_id = request.user.id
+                ai_values_to_save.name2 = text.name2
+                ai_values_to_save.number = text.number
+                ai_values_to_save.ai = ai
+                ai_values_to_save.training_text=text
+                ai_values_to_save.save()
+            else:
+                print("len(texts)",len(texts))
+                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+                ai_values_to_save=ai_values()
+                ai_values_to_save.value_checks=records.test_A
+                ai_values_to_save.value_answers=records.answer_A
+                ai_values_to_save.group=records.data_group_num_A
+                ai_values_to_save.user_id = request.user.id
+                ai_values_to_save.name2 = text.number
+                ai_values_to_save.number = text.number
+                ai_values_to_save.ai = ai
+                ai_values_to_save.training_text=text
+                ai_values_to_save.save()
+                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+                ai_values_to_save2=ai_values()
+                ai_values_to_save2.value_checks=records.test_A
+                ai_values_to_save2.value_answers=records.answer_A
+                ai_values_to_save2.group=records.data_group_num_A
+                ai_values_to_save2.user_id = request.user.id
+                ai_values_to_save2.name2 = str(text.number+1)
+                ai_values_to_save2.number = text.number+1
+                ai_values_to_save2.ai = ai
+                ai_values_to_save2.training_text=text
+                ai_values_to_save2.save()
             return redirect("AI_text_list", ai_id=ai.id)
     else:
         training_texts=training_text.objects.all().values()
