@@ -2,6 +2,7 @@
 {% load static %}
 {% url 'AI_text_list' as your_AI_list_url %}
 {% url 'your_AI_list' as your_AI_list_url %}
+{% url 'set_times' as set_times_url %}
 
 {% block content %}
 <div class="container">
@@ -26,6 +27,10 @@
             <button type="submit" id="talk_AI_button2" class="btn btn-success" value="use_response_text" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response as starting text</button>
             <br>
         </form>
+        <br>
+        <!-- btn-primary class from bootstrap -->
+        <a href="{% url 'set_times' AI.id %}" class="btn btn-primary" aria-label="Button that sends you to the set the number of training texts used by the AI for a response based on the times the texts were created">Set texts used based on <br>what time they were created</a>
+        <br>
         <br>
         <a href="{% url 'your_AI_list' %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go back to AI List</a>
         </div>

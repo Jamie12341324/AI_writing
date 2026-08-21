@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% url 'update_AI' as update_AI_url %}
+{% url 'update_AI2' as update_AI2_url %}
+{% url 'text_rename' as text_rename_url %}
+{% url 'text_delete' as text_delete_url %}
+{% url 'your_AI_list' as your_AI_list_url %}
+
+{% block content %}
+<div class="container" id="background_meal_list">
+    <div class="row">
+      <!-- col-12 class from bootstrap -->
+        <div class="standard col-12">
+          <h1>Text List</h1>
+          <!-- btn-success class from bootstrap -->
+          <p><a href="{% url 'update_AI' ai.id %}" class="btn btn-success" aria-label="Link with button class for creating a new AI">Create New Training Text For AI</a></p>
+
+          <table class="standard">
+            <tr>
+              <th> Text name</th>
+              <th> Edit </th>
+              <th> Rename </th>
+              <th> Delete</th>
+            </tr>
+            {% for Text in Text_results %}
+              <tr>
+                <!-- btn-success and btn-danger class from bootstrap -->
+                  <td class="padding4">{{Text.name2}}</td>
+                  <td class="padding4"><a href="{% url 'update_AI2' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit Text</a></td>
+                  <td class="padding4"><a href="{% url 'text_rename' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for renaming a AI">Rename</a></td>
+                  <td class="padding4"><a href="{% url 'text_delete' ai.id Text.id %}" class="btn btn-danger" aria-label="Link with button class for deleting a AI">Delete</a></td>
+              </tr>
+            {% endfor %}
+            </table>
+            <br>
+            <a href="{% url 'your_AI_list' %}" class="btn btn-success" aria-label="Button that sends you to the AI list">Go back to AI List</a>
+        </div>
+    </div>
+</div>
+<!-- custom javascript -->
+
+{% endblock %}

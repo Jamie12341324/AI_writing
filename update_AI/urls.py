@@ -8,4 +8,5 @@ urlpatterns = [
     path('update_AI2/<int:ai_id>/<int:text_id>', views.update_AI2, name='update_AI2'),
     path('text_rename/<int:ai_id>/<int:text_id>', views.text_rename, name='text_rename'),
     path('text_delete/<int:ai_id>/<int:text_id>', views.text_delete, name='text_delete'),
+    path('set_times/<int:ai_id>', views.set_times, name='set_times'),
 ]

@@ -58,7 +58,7 @@ def AI_writing(request,ai_id):
                  "starting_text":starting_text}
         return render(request,template,context)
     else:
-        context={}
+        context={"AI":ai}
         return render(request,template,context)
 def update_AI(request,ai_id):
     ai = AI.objects.get(id=ai_id)
@@ -188,4 +188,12 @@ def AI_text_list(request,ai_id):
     ai = AI.objects.get(id=ai_id)
     context={'Text_results':Text_results,
              "ai":ai}
+    return render(request,template,context)
+def set_times(request,ai_id):
+    template='set_times.html'
+    Text_results=training_text.objects.filter(user=request.user,ai=ai_id)
+    ai = AI.objects.get(id=ai_id)
+    context={'Text_results':Text_results,
+            "ai":ai,
+            'ai_id':ai_id,}
     return render(request,template,context)
