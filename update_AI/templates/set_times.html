@@ -18,17 +18,17 @@
           <table class="standard">
             <tr>
               <th> Text name</th>
-              <th> Edit </th>
-              <th> Rename </th>
+              <th> Created at </th>
+              <th> Updated at </th>
               <th> Delete</th>
             </tr>
-            {% for Text in Text_results %}
+            {% for AI_value in AI_values %}
               <tr>
                 <!-- btn-success and btn-danger class from bootstrap -->
-                  <td class="padding4">{{Text.name2}}</td>
-                  <td class="padding4"><a href="{% url 'update_AI2' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for editing a AI">Edit Text</a></td>
-                  <td class="padding4"><a href="{% url 'text_rename' ai.id Text.id %}" class="btn btn-success" aria-label="Link with button class for renaming a AI">Rename</a></td>
-                  <td class="padding4"><a href="{% url 'text_delete' ai.id Text.id %}" class="btn btn-danger" aria-label="Link with button class for deleting a AI">Delete</a></td>
+                  <td class="padding4">{{AI_value.name2}}</td>
+                  <td class="padding4">{{AI_value.created_at}}</td>
+                  <td class="padding4">{{AI_value.updated_at}}</td>
+                  <td class="padding4"><a href="{% url 'text_delete' ai.id AI_value.id %}" class="btn btn-danger" aria-label="Link with button class for deleting a AI">Delete</a></td>
               </tr>
             {% endfor %}
             </table>

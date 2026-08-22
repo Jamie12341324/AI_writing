@@ -20,3 +20,7 @@ can still read the sontent and it looks better */
     display: block;
     text-align:center;
 }
+/*  */
+.padding4{
+    padding-left:10px;
+}

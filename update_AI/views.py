@@ -191,9 +191,9 @@ def AI_text_list(request,ai_id):
     return render(request,template,context)
 def set_times(request,ai_id):
     template='set_times.html'
-    Text_results=training_text.objects.filter(user=request.user,ai=ai_id)
+    AI_values=ai_values.objects.filter(user=request.user,ai=ai_id)
     ai = AI.objects.get(id=ai_id)
-    context={'Text_results':Text_results,
+    context={'AI_values':AI_values,
             "ai":ai,
             'ai_id':ai_id,}
     return render(request,template,context)
