@@ -11,10 +11,27 @@
     <div class="row">
       <!-- col-12 class from bootstrap -->
         <div class="standard col-12">
-          <h1>Text List</h1>
+          <h1>Set Times</h1>
           <!-- btn-success class from bootstrap -->
           <p><a href="{% url 'update_AI' ai.id %}" class="btn btn-success" aria-label="Link with button class for creating a new AI">Create New Training Text For AI</a></p>
-
+          <h2>List of Times</h2>
+          <p>Each date you select will be given to the AI so that it can respond as if it only had been trained on texts given to it before and including that date. The AI will give 3 responses based on the dates you give it. </p>
+          <select id="time1" name="time1">
+                {% for AI_value in AI_values %}
+                <option value="{{AI_value.updated_at}}">{{AI_value.updated_at}}</option>
+                {% endfor %}
+          </select><br><br>
+          <select id="time2" name="time2">
+                {% for AI_value in AI_values %}
+                <option value="{{AI_value.updated_at}}">{{AI_value.updated_at}}</option>
+                {% endfor %}
+          </select><br><br>
+          <select id="time3" name="time3">
+                {% for AI_value in AI_values %}
+                <option value="{{AI_value.updated_at}}">{{AI_value.updated_at}}</option>
+                {% endfor %}
+          </select><br><br>
+          <h3>Text List</h3>
           <table class="standard">
             <tr>
               <th> Text name</th>
