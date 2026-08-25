@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import training_text,AI,ai_values
+from .models import training_text,AI,ai_values,times_group
 from django.db.models import Max
 # . from chatgpt used for import non-django file from another one of my project
 from .Mimic1_creative import Records
 import random
+from django.utils.dateparse import parse_datetime
 # Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
@@ -190,10 +191,30 @@ def AI_text_list(request,ai_id):
              "ai":ai}
     return render(request,template,context)
 def set_times(request,ai_id):
-    template='set_times.html'
-    AI_values=ai_values.objects.filter(user=request.user,ai=ai_id)
-    ai = AI.objects.get(id=ai_id)
-    context={'AI_values':AI_values,
-            "ai":ai,
-            'ai_id':ai_id,}
-    return render(request,template,context)
+    if request.method=="POST":
+        new_times_group=times_group()
+        new_times_group.user=request.user
+        ai = AI.objects.get(id=ai_id)
+        new_times_group.ai=ai
+        print("time1 POST:", request.POST.get("time1"))
+        print("time2 POST:", request.POST.get("time2"))
+        print("time3 POST:", request.POST.get("time3"))
+        ai_value1=ai_values.objects.get(id=request.POST["time1"],user=request.user,ai=ai_id)
+        ai_value2=ai_values.objects.get(id=request.POST["time2"],user=request.user,ai=ai_id)
+        ai_value3=ai_values.objects.get(id=request.POST["time3"],user=request.user,ai=ai_id)
+        new_times_group.time1=ai_value1.updated_at
+        new_times_group.time2=ai_value2.updated_at
+        new_times_group.time3=ai_value3.updated_at
+        print(new_times_group.time1)
+        print(new_times_group.time2)
+        print(new_times_group.time3)
+        new_times_group.save()
+        return redirect("AI_writing",ai_id)
+    else:
+        template='set_times.html'
+        AI_values=ai_values.objects.filter(user=request.user,ai=ai_id)
+        ai = AI.objects.get(id=ai_id)
+        context={'AI_values':AI_values,
+                "ai":ai,
+                'ai_id':ai_id,}
+        return render(request,template,context)

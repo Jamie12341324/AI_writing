@@ -27,4 +27,9 @@ class ai_values(models.Model):
     group = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+class times_group(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ai = models.ForeignKey(AI, on_delete=models.CASCADE)
+    time1 = models.DateTimeField()
+    time2 = models.DateTimeField()
+    time3 = models.DateTimeField()
