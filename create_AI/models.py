@@ -6,3 +6,4 @@ from django.contrib.auth.models import User
 class AI(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    has_times = models.BooleanField()

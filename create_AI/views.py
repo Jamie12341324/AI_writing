@@ -23,6 +23,7 @@ def AI_create(request):
             ai=AI()
             ai.user_id=request.user.id
             ai.name=request.POST["AI_name"]
+            ai.has_times=False
             ai.save()
             return redirect("your_AI_list")
         else:
@@ -51,6 +52,7 @@ def AI_create2(request,ai_id):
         if AI_records.exists():
             return redirect("AI_create2", ai_id=ai.id)
         ai.name=request.POST["AI_name"]
+        ai.has_times=False
         ai.save()
         return redirect("your_AI_list")
     else:
