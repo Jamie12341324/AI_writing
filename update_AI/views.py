@@ -6,36 +6,65 @@ from django.db.models import Max
 from .Mimic1_creative import Records
 import random
 from django.utils.dateparse import parse_datetime
+def get_ai(request,ai_id):
+    records=Records()
+    records.use=False
+    ai = AI.objects.get(id=ai_id)
+    times=times_group.objects.filter(user=request.user,ai=ai.id)[0]
+    ai_values_to_use_before=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at=times.time1)[0]
+    ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at__lte=ai_values_to_use_before.updated_at)
+    # while True:
+    #     print("len(ai_values_to_use_A)",len(ai_values_to_use_A))
+    for ai_values_to_use in ai_values_to_use_A:
+        #print("ai_values_to_use",ai_values_to_use.group)
+        c=0
+        L1=len(ai_values_to_use.value_checks)
+        while c<L1:
+            L2=len(records.test_A)
+            if c==L2:
+                records.test_A.append([])
+                records.answer_A.append([])
+                records.data_group_num_A.append([])
+            c2=0
+            L2=len(ai_values_to_use.value_checks[c])
+            while c2<L2:
+                records.test_A[c].append(ai_values_to_use.value_checks[c][c2])
+                records.answer_A[c].append(ai_values_to_use.value_answers[c][c2])
+                records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
+                c2=c2+1
+            c=c+1
+    return records
 # Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
     ai = AI.objects.get(id=ai_id)
     if request.method=="POST":
-        records=Records()
+        records=get_ai(request,ai_id)
+        # records=Records()
         #records.test_full_sequence("Hi there are you ok.",1)
         #records.test_full_sequence("Hi there are you ok.",2)
         #records.test_full_sequence("Hi there are you ok.",3)
         #records.test_full_sequence("Hi there are you ok.",4)
         records.use=False
-        ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id)
-        for ai_values_to_use in ai_values_to_use_A:
-            #print("ai_values_to_use",ai_values_to_use.group)
-            c=0
-            L1=len(ai_values_to_use.value_checks)
-            while c<L1:
-                L2=len(records.test_A)
-                if c==L2:
-                    records.test_A.append([])
-                    records.answer_A.append([])
-                    records.data_group_num_A.append([])
-                c2=0
-                L2=len(ai_values_to_use.value_checks[c])
-                while c2<L2:
-                    records.test_A[c].append(ai_values_to_use.value_checks[c][c2])
-                    records.answer_A[c].append(ai_values_to_use.value_answers[c][c2])
-                    records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
-                    c2=c2+1
-                c=c+1
+        # ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id)
+        # for ai_values_to_use in ai_values_to_use_A:
+        #     #print("ai_values_to_use",ai_values_to_use.group)
+        #     c=0
+        #     L1=len(ai_values_to_use.value_checks)
+        #     while c<L1:
+        #         L2=len(records.test_A)
+        #         if c==L2:
+        #             records.test_A.append([])
+        #             records.answer_A.append([])
+        #             records.data_group_num_A.append([])
+        #         c2=0
+        #         L2=len(ai_values_to_use.value_checks[c])
+        #         while c2<L2:
+        #             records.test_A[c].append(ai_values_to_use.value_checks[c][c2])
+        #             records.answer_A[c].append(ai_values_to_use.value_answers[c][c2])
+        #             records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
+        #             c2=c2+1
+        #         c=c+1
             # records.test_A.append([])
             # records.answer_A.append([])
             # records.data_group_num_A.append([])
@@ -56,7 +85,8 @@ def AI_writing(request,ai_id):
         # records.test_full_sequence("Hello there are you ok. Hi there are you ok.",data_group_num=8)
         info=records.text_central_loop3(starting_text)
         context={"response_text":info,
-                 "starting_text":starting_text}
+                 "starting_text":starting_text,
+                 "AI":ai}
         return render(request,template,context)
     else:
         context={"AI":ai}
@@ -192,9 +222,14 @@ def AI_text_list(request,ai_id):
     return render(request,template,context)
 def set_times(request,ai_id):
     if request.method=="POST":
-        new_times_group=times_group()
-        new_times_group.user=request.user
         ai = AI.objects.get(id=ai_id)
+        if ai.has_times==False:
+            ai.has_times=True
+            new_times_group=times_group()
+        else:
+            new_times_group=times_group.objects.get(user=request.user,ai_id=ai.id)
+        new_times_group.user=request.user
+        ai.save()
         new_times_group.ai=ai
         print("time1 POST:", request.POST.get("time1"))
         print("time2 POST:", request.POST.get("time2"))
