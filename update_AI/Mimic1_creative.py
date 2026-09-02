@@ -185,6 +185,8 @@ class Records:
                     pass
                 if answer==" ":
                     self.transfer_data_group()
+                if len(info)-len(sequence)>15:
+                    break
                 info=info+answer
                 print("info",info)
             print("info",info)
