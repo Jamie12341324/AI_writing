@@ -24,3 +24,40 @@ can still read the sontent and it looks better */
 .padding4{
     padding-left:10px;
 }
+/* AI_create image background */
+#background_AI_create{
+    background-image: url(../images/images_for_site/AI_create_image.png);
+    height:120%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/*  image background */
+#background_future_AI{
+    background-image: url(../images/images_for_site/future_ai_image.png);
+    height:300%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/*  image background */
+#background_humanoid_robot{
+    background-image: url(../images/images_for_site/humanoid_robot.png);
+    height:500%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/*  image background */
+#background_robot_being_built{
+    background-image: url(../images/images_for_site/robot_being_built.png);
+}
+/*  image background */
+#background_writing_pen{
+    background-image: url(../images/images_for_site/wirting_pen.png);
+}
+/*  image background */
+#background_writing_book{
+    background-image: url(../images/images_for_site/writng_book.png);
+}
