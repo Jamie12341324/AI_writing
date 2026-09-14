@@ -33,7 +33,7 @@ can still read the sontent and it looks better */
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-/*  image background */
+/*  your AI list page image background */
 #background_future_AI{
     background-image: url(../images/images_for_site/future_ai_image.png);
     height:300%;
@@ -41,7 +41,7 @@ can still read the sontent and it looks better */
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-/*  image background */
+/*  home page image background */
 #background_humanoid_robot{
     background-image: url(../images/images_for_site/humanoid_robot.png);
     height:500%;
@@ -49,15 +49,36 @@ can still read the sontent and it looks better */
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-/*  image background */
+/*  AI text list page image background */
 #background_robot_being_built{
     background-image: url(../images/images_for_site/robot_being_built.png);
+    height:180%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
-/*  image background */
+/*  text rename page image background */
 #background_writing_pen{
     background-image: url(../images/images_for_site/wirting_pen.png);
+    height:180%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
-/*  image background */
+/*  Update AI training data image background */
 #background_writing_book{
     background-image: url(../images/images_for_site/writng_book.png);
+    height:130%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/*  set_times page image background */
+#background_set_times_3_AI{
+    background-image: url(../images/images_for_site/set_times_3_AI.png);
+    height:150%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
