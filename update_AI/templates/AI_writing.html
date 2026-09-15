@@ -14,6 +14,7 @@
         <form method="POST">
             {% csrf_token %}
             <div class="row">
+            {% if AI.has_times %}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
             <label for="talk_AI" class="label_div">AI starting Text</label>
             <textarea id="talk_AI" name="talk_AI" rows="10" cols="30" aria-label="New start of some writing for AI">{{ starting_text }}</textarea>
@@ -21,7 +22,6 @@
             <br>
             <button type="submit" id="talk_AI_button" class="btn btn-success" value="use_starting_text" name="respond_button" aria-label="Button that gets the AI to respond using the starting text">AI response</button>
             </div>
-            {% if AI.has_times %}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
             <label for="response_AI1" class="label_div">AI response Text for Time1</label>
             <textarea id="response_AI1" name="response_AI1" rows="10" cols="30" aria-label="New response from AI if it had training texts before time1">{{ response_text }}</textarea>
@@ -44,7 +44,14 @@
             <button type="submit" id="talk_AI_button2" class="btn btn-success" value="use_response_text3" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 3 as starting text</button>
             </div>
             {% else %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+            <div class="col-xl-6 col-lg-7 col-md-8 col-sm-12">
+            <label for="talk_AI" class="label_div">AI starting Text</label>
+            <textarea id="talk_AI" name="talk_AI" rows="10" cols="30" aria-label="New start of some writing for AI">{{ starting_text }}</textarea>
+            <br>
+            <br>
+            <button type="submit" id="talk_AI_button" class="btn btn-success" value="use_starting_text" name="respond_button" aria-label="Button that gets the AI to respond using the starting text">AI response</button>
+            </div>
+            <div class="col-xl-6 col-lg-7 col-md-8 col-sm-12">
             <label for="response_AI" class="label_div">AI response Text</label>
             <textarea id="response_AI" name="response_AI" rows="10" cols="30" aria-label="New response from AI">{{ response_text }}</textarea>
             </div>
