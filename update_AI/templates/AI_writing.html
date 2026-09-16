@@ -11,7 +11,7 @@
         <div class="standard">
         <h1>Talk to your AI</h1>
         <br>
-        <form method="POST">
+        <form id="input_form" method="POST">
             {% csrf_token %}
             <div class="row">
             {% if AI.has_times %}
@@ -27,21 +27,21 @@
             <textarea id="response_AI1" name="response_AI1" rows="10" cols="30" aria-label="New response from AI if it had training texts before time1">{{ response_text }}</textarea>
             <br>
             <br>
-            <button type="submit" id="talk_AI_button2" class="btn btn-success" value="use_response_text1" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 1 as starting text</button>
+            <button type="submit" id="talk_AI_button2a" class="btn btn-success" value="use_response_text1" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 1 as starting text</button>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
             <label for="response_AI2" class="label_div">AI response Text for Time2</label>
             <textarea id="response_AI2" name="response_AI2" rows="10" cols="30" aria-label="New response from AI if it had training texts before time2">{{ response_text2 }}</textarea>
             <br>
             <br>
-            <button type="submit" id="talk_AI_button2" class="btn btn-success" value="use_response_text2" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 2 as starting text</button>
+            <button type="submit" id="talk_AI_button2b" class="btn btn-success" value="use_response_text2" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 2 as starting text</button>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
             <label for="response_AI3" class="label_div">AI response Text for Time3</label>
             <textarea id="response_AI3" name="response_AI3" rows="10" cols="30" aria-label="New response from AI if it had training texts before time3">{{ response_text3 }}</textarea>
             <br>
             <br>
-            <button type="submit" id="talk_AI_button2" class="btn btn-success" value="use_response_text3" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 3 as starting text</button>
+            <button type="submit" id="talk_AI_button2c" class="btn btn-success" value="use_response_text3" name="respond_button" aria-label="Button that gets the AI to respond using the response text as starting text">use AI response 3 as starting text</button>
             </div>
             {% else %}
             <div class="col-xl-6 col-lg-7 col-md-8 col-sm-12">
@@ -75,5 +75,6 @@
     </div>
 </div>
 <!-- custom javascript -->
+<script src="/static/js/script2.js"></script>
 
 {% endblock %}
