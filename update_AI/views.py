@@ -180,6 +180,7 @@ def update_AI(request,ai_id):
                 ai_values_to_save.number = text.number
                 ai_values_to_save.ai = ai
                 ai_values_to_save.training_text=text
+                ai_values_to_save.duplicate=False
                 ai_values_to_save.save()
             else:
                 print("len(texts)",len(texts))
@@ -193,6 +194,7 @@ def update_AI(request,ai_id):
                 ai_values_to_save.number = text.number
                 ai_values_to_save.ai = ai
                 ai_values_to_save.training_text=text
+                ai_values_to_save.duplicate=True
                 ai_values_to_save.save()
                 records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
                 ai_values_to_save2=ai_values()
@@ -204,6 +206,7 @@ def update_AI(request,ai_id):
                 ai_values_to_save2.number = text.number+1
                 ai_values_to_save2.ai = ai
                 ai_values_to_save2.training_text=text
+                ai_values_to_save2.duplicate=False
                 ai_values_to_save2.save()
             return redirect("AI_text_list", ai_id=ai.id)
     else:
@@ -302,7 +305,7 @@ def set_times(request,ai_id):
         return redirect("AI_writing",ai_id)
     else:
         template='set_times.html'
-        AI_values=ai_values.objects.filter(user=request.user,ai=ai_id)
+        AI_values=ai_values.objects.filter(user=request.user,ai=ai_id,duplicate=True)
         ai = AI.objects.get(id=ai_id)
         context={'AI_values':AI_values,
                 "ai":ai,
