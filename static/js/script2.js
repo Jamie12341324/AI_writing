@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
 let form2=document.getElementById("input_form");
-alert("hi");
     form2.addEventListener("submit", function(event){
-        alert("hello");
         const button = event.submitter;
-        alert(button);
-        console.log(button);
         let text="";
         if (button.id=="talk_AI_button"){
             text=document.getElementById("talk_AI").value;
