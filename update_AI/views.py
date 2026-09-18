@@ -169,8 +169,8 @@ def update_AI(request,ai_id):
             records=Records()
             texts=training_text.objects.filter(user=request.user,ai=ai.id)
             print(len(texts))
-            if training_text.objects.filter(user=request.user,ai=ai.id) and len(texts)>8:
-                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+            if training_text.objects.filter(user=request.user,ai=ai.id) and len(texts)>4:
+                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,4))
                 ai_values_to_save=ai_values()
                 ai_values_to_save.value_checks=records.test_A
                 ai_values_to_save.value_answers=records.answer_A
