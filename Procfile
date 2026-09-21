@@ -1,0 +1,1 @@
+web: gunicorn AI_writing.wsgi
