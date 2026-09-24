@@ -27,7 +27,7 @@ can still read the sontent and it looks better */
 /* AI_create image background */
 #background_AI_create{
     background-image: url(../images/images_for_site/AI_create_image.png);
-    height:120%;
+    height:180%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
