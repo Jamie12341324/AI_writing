@@ -6,6 +6,9 @@ let form2=document.getElementById("input_form");
         if (button.id=="talk_AI_button"){
             text=document.getElementById("talk_AI").value;
         }
+        else if (button.id=="talk_AI_button_b"){
+            text=document.getElementById("talk_AI").value;
+        }
         else if (button.id=="talk_AI_button2"){
             text=document.getElementById("response_AI").value;
         }

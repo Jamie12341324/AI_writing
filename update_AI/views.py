@@ -38,8 +38,7 @@ def get_ai_no_time(request,ai_id):
     records=Records()
     records.use=False
     ai = AI.objects.get(id=ai_id)
-    times=times_group.objects.filter(user=request.user,ai=ai.id)[0]
-    ai_values_to_use_before=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at=time)[0]
+    ai_values_to_use_before=ai_values.objects.filter(user=request.user,ai=ai.id)[0]
     ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at__lte=ai_values_to_use_before.updated_at)
     # while True:
     #     print("len(ai_values_to_use_A)",len(ai_values_to_use_A))
@@ -131,7 +130,6 @@ def AI_writing(request,ai_id):
             # records.test_A.append([])
             # records.answer_A.append([])
             # records.data_group_num_A.append([])
-        print("records.answer_A",records1.answer_A)
         info="hello"
         # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=3)
         # records.test_full_sequence("Hi there are you ok. Hello there are you ok.",data_group_num=2)
@@ -251,9 +249,15 @@ def text_rename(request,ai_id,text_id):
         text_to_rename=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
         text_to_rename.name2=request.POST["text_name"]
         text_to_rename.save()
-        ai_values_to_save=ai_values.objects.get(user=request.user, training_text=text_to_rename.id)
-        ai_values_to_save.name2=text_to_rename.name2
-        ai_values_to_save.save()
+        ai_values_to_save=ai_values.objects.filter(user=request.user, training_text=text_to_rename)
+        if ai_values_to_save[0].duplicate==True:
+            ai_values_to_save[0].name2=text_to_rename.name2
+            ai_values_to_save[1].name2=text_to_rename.name2
+            ai_values_to_save[0].save()
+            ai_values_to_save[1].save()
+        else:
+            ai_values_to_save[0].name2=text_to_rename.name2
+            ai_values_to_save[0].save()
         context={'AI_id':ai_id,}
         ai = AI.objects.get(id=ai_id)
         return redirect("AI_text_list", ai_id=ai.id)

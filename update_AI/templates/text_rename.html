@@ -13,7 +13,7 @@
         <div class="standard col-12">
         <h1>Rename Your Text</h1>
         <br>
-        <form method="POST">
+        <form id="text_rename_form" method="POST">
             {% csrf_token %}
             <label for="text_name">Text Name</label>
             <input type="text" id="text_name" name="text_name" value="{{text_name}}" aria-label="new name of your text to update the list of texts">
@@ -29,5 +29,6 @@
     </div>
 </div>
 <!-- custom javascript -->
+<script src="/static/js/script3.js"></script>
 
 {% endblock %}

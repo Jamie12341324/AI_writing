@@ -24,6 +24,9 @@ can still read the sontent and it looks better */
 .padding4{
     padding-left:10px;
 }
+.text_names{
+    visibility: hidden;
+}
 /* AI_create image background */
 #background_AI_create{
     background-image: url(../images/images_for_site/AI_create_image.png);
