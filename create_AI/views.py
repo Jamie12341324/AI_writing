@@ -29,7 +29,7 @@ def AI_create(request):
         else:
             return redirect("AI_create")
     else:
-        AIs=AI.objects.all().values()
+        AIs=AI.objects.filter(user_id=request.user.id).values()
         context={"AIs":AIs,}
         return render(
             request,

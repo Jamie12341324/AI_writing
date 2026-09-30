@@ -2,6 +2,9 @@
 {% load static %}
 {% url 'your_AI_list' as your_AI_list_url %}
 {% block content %}
+{% for AI in AIs %}
+<textarea class="AI_names" name="AI_name">{{AI.name}}</textarea>
+{% endfor %}
 <!-- id image from pinterest -->
 <div id="background_AI_create">
 <div  class="container">
@@ -10,7 +13,7 @@
         <div class="standard col-12">
         <h1>Name Your AI</h1>
         <br>
-        <form method="POST">
+        <form id="Name_AI_form" method="POST">
             {% csrf_token %}
             <label for="AI_name">AI Name</label>
             <input type="text" id="AI_name" name="AI_name" value="{{AI_name}}" aria-label="Name of your new AI to be add to the list of AI">
@@ -31,5 +34,5 @@
 </div>
 </div>
 <!-- custom javascript -->
-
+<script src="/static/js/script4.js"></script>
 {% endblock %}
