@@ -6,6 +6,8 @@ from django.db.models import Max
 from .Mimic1_creative import Records
 import random
 from django.utils.dateparse import parse_datetime
+from django.contrib.auth.decorators import login_required
+@login_required
 def get_ai(request,ai_id,time):
     records=Records()
     records.use=False
@@ -34,6 +36,7 @@ def get_ai(request,ai_id,time):
                 c2=c2+1
             c=c+1
     return records
+@login_required
 def get_ai_no_time(request,ai_id):
     records=Records()
     records.use=False
@@ -61,6 +64,7 @@ def get_ai_no_time(request,ai_id):
                 c2=c2+1
             c=c+1
     return records
+@login_required
 # Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
@@ -144,6 +148,7 @@ def AI_writing(request,ai_id):
     else:
         context={"AI":ai}
         return render(request,template,context)
+@login_required
 def update_AI(request,ai_id):
     ai = AI.objects.get(id=ai_id)
     if request.method == "POST":
@@ -151,9 +156,9 @@ def update_AI(request,ai_id):
             if train_text == '' or (train_text[len(train_text)-1] != '.' and train_text[len(train_text)-1] != '?' and train_text[len(train_text)-1] != '!'):
                 return redirect("update_AI", ai_id=ai.id)
             ai = AI.objects.get(id=ai_id)
-            max_num = training_text.objects.filter(user=request.user,ai=ai.id).aggregate(Max("number"))["number__max"]
+            max_num = training_text.objects.filter(user=request.user.id,ai=ai.id).aggregate(Max("number"))["number__max"]
             text=training_text()
-            text.user_id=request.user.id
+            text.user=request.user
             text.text_saved=request.POST["train_AI"]
             if max_num==None:
                 text.name2=str(1)
@@ -218,6 +223,7 @@ def update_AI(request,ai_id):
             "update_AI.html",
             context
         )
+@login_required
 def update_AI2(request,ai_id,text_id):
      ai = AI.objects.get(id=ai_id)
      if request.method == "POST":
@@ -244,6 +250,7 @@ def update_AI2(request,ai_id,text_id):
                     "update_AI.html",
                     context
                 )
+@login_required
 def text_rename(request,ai_id,text_id):
     if request.method=="POST":
         text_to_rename=training_text.objects.get(user=request.user,ai=ai_id,id=text_id)
@@ -269,12 +276,14 @@ def text_rename(request,ai_id,text_id):
                  'text_name':existing_text_name,
                  'text_names':text_names}
         return render(request,'text_rename.html',context)
+@login_required
 def text_delete(request,ai_id,text_id):
      text_to_delete=training_text.objects.filter(user=request.user,ai=ai_id,id=text_id)
      text_to_delete.delete()
      context={}
      ai = AI.objects.get(id=ai_id)
      return redirect("AI_text_list", ai_id=ai.id)
+@login_required
 def AI_text_list(request,ai_id):
     template='AI_text_list.html'
     Text_results=training_text.objects.filter(user=request.user,ai=ai_id)
@@ -282,6 +291,7 @@ def AI_text_list(request,ai_id):
     context={'Text_results':Text_results,
              "ai":ai}
     return render(request,template,context)
+@login_required
 def set_times(request,ai_id):
     if request.method=="POST":
         ai = AI.objects.get(id=ai_id)
