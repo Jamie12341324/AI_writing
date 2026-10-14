@@ -7,7 +7,7 @@ from .Mimic1_creative import Records
 import random
 from django.utils.dateparse import parse_datetime
 from django.contrib.auth.decorators import login_required
-@login_required
+# function for getting a object with AI functions and values from the database that only has values created before a specific time to be used by another function
 def get_ai(request,ai_id,time):
     records=Records()
     records.use=False
@@ -33,6 +33,7 @@ def get_ai(request,ai_id,time):
                 c2=c2+1
             c=c+1
     return records
+# function for getting a object with AI functions and values from the database not based on a time but just getting all the values for that AI to be used by another function
 @login_required
 def get_ai_no_time(request,ai_id):
     records=Records()
@@ -58,8 +59,8 @@ def get_ai_no_time(request,ai_id):
                 c2=c2+1
             c=c+1
     return records
+# uses a function to get AIs with values from before certain times or one AI base on ai.has_times then uses the AI to generate a response text based on a starting text
 @login_required
-# Create your views here.
 def AI_writing(request,ai_id):
     template='AI_writing.html'
     ai = AI.objects.get(id=ai_id)
@@ -105,6 +106,7 @@ def AI_writing(request,ai_id):
     else:
         context={"AI":ai}
         return render(request,template,context)
+# saves training texts to the database with the values an AI generated when it was trained on the text
 @login_required
 def update_AI(request,ai_id):
     ai = AI.objects.get(id=ai_id)
@@ -180,6 +182,7 @@ def update_AI(request,ai_id):
             "update_AI.html",
             context
         )
+# edits existing training texts to the database with the values an AI generated when it was trained on the text
 @login_required
 def update_AI2(request,ai_id,text_id):
      ai = AI.objects.get(id=ai_id)
@@ -207,6 +210,7 @@ def update_AI2(request,ai_id,text_id):
                     "update_AI.html",
                     context
                 )
+# rename name of texts
 @login_required
 def text_rename(request,ai_id,text_id):
     if request.method=="POST":
@@ -233,12 +237,14 @@ def text_rename(request,ai_id,text_id):
                  'text_name':existing_text_name,
                  'text_names':text_names}
         return render(request,'text_rename.html',context)
+#  deletes text
 @login_required
 def text_delete(request,ai_id,text_id):
      text_to_delete=training_text.objects.filter(user=request.user,ai=ai_id,id=text_id)
      text_to_delete.delete()
      ai = AI.objects.get(id=ai_id)
      return redirect("AI_text_list", ai_id=ai.id)
+# gives you a list of texts for an AI
 @login_required
 def AI_text_list(request,ai_id):
     template='AI_text_list.html'
@@ -247,6 +253,7 @@ def AI_text_list(request,ai_id):
     context={'Text_results':Text_results,
              "ai":ai}
     return render(request,template,context)
+# saves a list of times to the database
 @login_required
 def set_times(request,ai_id):
     if request.method=="POST":
@@ -259,18 +266,12 @@ def set_times(request,ai_id):
         new_times_group.user=request.user
         ai.save()
         new_times_group.ai=ai
-        print("time1 POST:", request.POST.get("time1"))
-        print("time2 POST:", request.POST.get("time2"))
-        print("time3 POST:", request.POST.get("time3"))
         ai_value1=ai_values.objects.get(id=request.POST["time1"],user=request.user,ai=ai_id)
         ai_value2=ai_values.objects.get(id=request.POST["time2"],user=request.user,ai=ai_id)
         ai_value3=ai_values.objects.get(id=request.POST["time3"],user=request.user,ai=ai_id)
         new_times_group.time1=ai_value1.updated_at
         new_times_group.time2=ai_value2.updated_at
         new_times_group.time3=ai_value3.updated_at
-        print(new_times_group.time1)
-        print(new_times_group.time2)
-        print(new_times_group.time3)
         new_times_group.save()
         return redirect("AI_writing",ai_id)
     else:

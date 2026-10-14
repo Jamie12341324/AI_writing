@@ -9,11 +9,11 @@ from django.shortcuts import redirect
 def home(request):
     template='home.html'
     return render(request,template)
-#@login_required(login_url="/accounts/login/")
 # AI_create
 # returns you back to the same page (AI_create) if you have not given a name to create an AI with or
 # an AI with that name already exists
 # if you have given an AI name then it is saved and you are sent to the AI list page
+@login_required
 def AI_create(request):
     if request.method == "POST":
         if request.POST["AI_name"] == '':
@@ -38,9 +38,10 @@ def AI_create(request):
         )
  # AI_create2
 # does a similar job to AI_create but it is for renaming an AI instead of creating one
-# returns you back to the same page (meal_create2) if you have not given a name to rename an AI with or
+# returns you back to the same page (AI_create2) if you have not given a name to rename an AI with or
 # an AI with that name already exists
 # if you have given an AI name then it is saved and you are sent to the AI list page
+@login_required
 def AI_create2(request,ai_id):
     ais=AI.objects.all().values()
     ai=AI.objects.get(id=ai_id)
@@ -65,6 +66,7 @@ def AI_create2(request,ai_id):
             "AI_create.html",
             context
         )   
+@login_required
 def your_AI_list(request):
     AI_results = AI.objects.filter(Q(user_id=request.user.id)).values().order_by("id")
     context = {
@@ -72,6 +74,7 @@ def your_AI_list(request):
     }
     template ='your_AI_list.html'
     return render(request,template,context)
+@login_required
 def AI_delete(request,ai_id):
     ai_to_delete= AI.objects.get(Q(id=ai_id) & Q(user_id=request.user.id))
     ai_to_delete.delete()
