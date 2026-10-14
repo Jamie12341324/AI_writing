@@ -20,13 +20,15 @@ can still read the sontent and it looks better */
     display: block;
     text-align:center;
 }
-/*  */
+/* class used for table spacing */
 .padding4{
     padding-left:10px;
 }
+/* class for hiding information used by javascript to make sure text names are all different */
 .text_names{
     visibility: hidden;
 }
+/* class for hiding information used by javascript to make sure AI names are all different */
 .AI_names{
     visibility: hidden;
 }
