@@ -188,7 +188,7 @@ class Records:
                     self.transfer_data_group()
                     print("self.data_group_num_A2",self.data_group_num_A2)
                     print("self.data_group_num_A3",self.data_group_num_A3)
-                if len(info)-len(sequence)>5:
+                if len(info)-len(sequence)>25:
                     break
                 info=info+answer
                 print("info",info)
