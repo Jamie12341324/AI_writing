@@ -32,6 +32,7 @@ def get_ai(request,ai_id,time):
                 records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
                 c2=c2+1
             c=c+1
+        print("ai_values_to_use.group",ai_values_to_use.group)
     return records
 # function for getting a object with AI functions and values from the database not based on a time but just getting all the values for that AI to be used by another function
 @login_required
@@ -39,8 +40,10 @@ def get_ai_no_time(request,ai_id):
     records=Records()
     records.use=False
     ai = AI.objects.get(id=ai_id)
-    ai_values_to_use_before=ai_values.objects.filter(user=request.user,ai=ai.id)[0]
-    ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at__lte=ai_values_to_use_before.updated_at)
+    ai_values_to_use_before1=ai_values.objects.filter(user=request.user,ai=ai.id)
+    L=len(ai_values_to_use_before1)
+    ai_values_to_use_before2=ai_values.objects.filter(user=request.user,ai=ai.id)[L-1]
+    ai_values_to_use_A=ai_values.objects.filter(user=request.user,ai=ai.id,updated_at__lte=ai_values_to_use_before2.updated_at)
     for ai_values_to_use in ai_values_to_use_A:
         c=0
         L1=len(ai_values_to_use.value_checks)
@@ -58,6 +61,7 @@ def get_ai_no_time(request,ai_id):
                 records.data_group_num_A[c].append(ai_values_to_use.group[c][c2])
                 c2=c2+1
             c=c+1
+        print("ai_values_to_use.group",ai_values_to_use.group)
     return records
 # uses a function to get AIs with values from before certain times or one AI base on ai.has_times then uses the AI to generate a response text based on a starting text
 @login_required
@@ -128,10 +132,10 @@ def update_AI(request,ai_id):
                 text.number=num
             text.ai=ai
             text.save()
-            records=Records()
             texts=training_text.objects.filter(user=request.user,ai=ai.id)
             print(len(texts))
             if training_text.objects.filter(user=request.user,ai=ai.id) and len(texts)>4:
+                records=Records()
                 records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,4))
                 ai_values_to_save=ai_values()
                 ai_values_to_save.value_checks=records.test_A
@@ -146,11 +150,12 @@ def update_AI(request,ai_id):
                 ai_values_to_save.save()
             else:
                 print("len(texts)",len(texts))
-                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+                records1=Records()
+                records1.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
                 ai_values_to_save=ai_values()
-                ai_values_to_save.value_checks=records.test_A
-                ai_values_to_save.value_answers=records.answer_A
-                ai_values_to_save.group=records.data_group_num_A
+                ai_values_to_save.value_checks=records1.test_A
+                ai_values_to_save.value_answers=records1.answer_A
+                ai_values_to_save.group=records1.data_group_num_A
                 ai_values_to_save.user_id = request.user.id
                 ai_values_to_save.name2 = text.number
                 ai_values_to_save.number = text.number
@@ -158,11 +163,12 @@ def update_AI(request,ai_id):
                 ai_values_to_save.training_text=text
                 ai_values_to_save.duplicate=True
                 ai_values_to_save.save()
-                records.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
+                records2=Records()
+                records2.test_full_sequence(text.text_saved,data_group_num=random.randint(0,100))
                 ai_values_to_save2=ai_values()
-                ai_values_to_save2.value_checks=records.test_A
-                ai_values_to_save2.value_answers=records.answer_A
-                ai_values_to_save2.group=records.data_group_num_A
+                ai_values_to_save2.value_checks=records2.test_A
+                ai_values_to_save2.value_answers=records2.answer_A
+                ai_values_to_save2.group=records2.data_group_num_A
                 ai_values_to_save2.user_id = request.user.id
                 ai_values_to_save2.name2 = str(text.number+1)
                 ai_values_to_save2.number = text.number+1
@@ -276,7 +282,7 @@ def set_times(request,ai_id):
         return redirect("AI_writing",ai_id)
     else:
         template='set_times.html'
-        AI_values=ai_values.objects.filter(user=request.user,ai=ai_id,duplicate=True)
+        AI_values=ai_values.objects.filter(user=request.user,ai=ai_id,duplicate=True).order_by("-updated_at")
         ai = AI.objects.get(id=ai_id)
         context={'AI_values':AI_values,
                 "ai":ai,

@@ -179,16 +179,21 @@ class Records:
             #x=input()
             info=info+sequence
             answer=""
+            print("self.data_group_num_A",self.data_group_num_A)
             while answer!=".":
                 answer=self.respond(info)
                 if answer=="d":
                     pass
                 if answer==" ":
                     self.transfer_data_group()
-                if len(info)-len(sequence)>15:
+                    print("self.data_group_num_A2",self.data_group_num_A2)
+                    print("self.data_group_num_A3",self.data_group_num_A3)
+                if len(info)-len(sequence)>5:
                     break
                 info=info+answer
                 print("info",info)
+                print("self.data_group_num_A2 2",self.data_group_num_A2)
+                print("self.data_group_num_A3 2",self.data_group_num_A3)
             print("info",info)
             return info
     def text_central_loop2(self,start):
